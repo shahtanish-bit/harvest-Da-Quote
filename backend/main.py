@@ -1,8 +1,11 @@
 import random
 import json
 from pathlib import Path
-from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+QUOTE_DATA = []
 
 def load_quotes():
     json_path = Path(__file__).parent / "quotes.json"
@@ -11,6 +14,15 @@ def load_quotes():
     
     with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global QUOTE_DATA
+    try:
+        QUOTE_DATA = load_quotes()
+    except Exception as e:
+        print(f"Error loading quote: {e}")
+        yield
 
 app = FastAPI()
 
@@ -29,5 +41,6 @@ def root():
 
 @app.get("/api/quote")
 def harvest():
-    quotes = load_quotes()
-    return random.choice(quotes)
+    if not QUOTE_DATA:
+        raise HTTPException(status_code=500, detail="No quote available in database.")
+    return random.choice(QUOTE_DATA)
