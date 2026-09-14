@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #333;
+    color: #fff;
+}
+
+.bg-img {
+    position: fixed;
+    width: 100vw;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.head{
+    margin: 74px 0 10px 0;
+    text-align: center;
+    font-size: 3.5rem;
+    line-height: 3.7rem;
+}
+
+.quote1{
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+}
