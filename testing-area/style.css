@@ -8,7 +8,7 @@ body {
 
 }
 
-.test {
+.text {
     color: wheat;
     text-align: center;
 }
@@ -19,7 +19,7 @@ body {
     opacity: 0;
     filter: blur(15px);
     transform: translateY(30px);
-    animation: reveal 1s ease-out forwards;
+    animation: reveal 1s ease forwards;
 }
 
 @keyframes reveal {
@@ -34,4 +34,20 @@ body {
         filter: blur(0);
         transform: translateY(0);
     }
+}
+
+.test1 {
+    animation-delay: 0.1s;
+}
+.test2 {
+    animation-delay: 0.8s;
+}
+.test3 {
+    animation-delay: 1.7s;
+}
+.test4 {
+    animation-delay: 2.8s;
+}
+.test5 {
+    animation-delay: 4.5s;
 }
