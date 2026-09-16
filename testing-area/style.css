@@ -1,11 +1,49 @@
 body {
     margin: 0;
     padding: 0;
-    background: #1B1B1B;    
+    background: #1B1B1B;
+    color: antiquewhite;
+}
+
+.main-text {
+    font-size: 5rem;
+    text-align: center;
 }
 
 .test-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
 
+.hidden {
+    display: none !important;
+}
+
+.test-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.test-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: wheat;
+    color: #1B1B1B;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .text {
@@ -50,4 +88,8 @@ body {
 }
 .test5 {
     animation-delay: 4.5s;
+}
+
+.test6 {
+    animation-delay: 5s;
 }
