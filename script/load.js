@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const testDiv = document.getElementById('test-div');
-    const btn = document.getElementById('test-btn');
+    const testDiv = document.getElementById('wlc-div');
+    const btn = document.getElementById('wlc-btn');
     
     const hasVisited = sessionStorage.getItem('hasVisitedBefore');
 
     if (!hasVisited) {
-        testDiv.classList.remove('hidden');
+        testDiv.classList.remove('wlc-hidden');
         sessionStorage.setItem('hasVisitedBefore', 'true');
     }
 
     btn.addEventListener('click', () => {
-        testDiv.classList.add('hidden');
+        testDiv.classList.add('wlc-hidden');
     });
 });

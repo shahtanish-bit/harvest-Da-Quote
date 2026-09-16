@@ -37,7 +37,7 @@ body {
 
 
 /* ANIMATION */
-.test-div {
+.wlc-div {
     position: fixed;
     top: 0;
     left: 0;
@@ -51,18 +51,18 @@ body {
     z-index: 9999; 
 }
 
-.hidden {
+.wlc-hidden {
     display: none !important;
 }
 
-.test-content {
+.wlc-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.test-btn {
+.wlc-btn {
     margin-top: 20px;
     padding: 12px 24px;
     background-color: wheat;
@@ -73,7 +73,7 @@ body {
     cursor: pointer;
 }
 
-.text {
+.wlc-text {
     color: wheat;
     text-align: center;
 }
@@ -102,23 +102,23 @@ body {
     }
 }
 
-.test1 {
+.text1 {
     animation-delay: 0.1s;
 }
-.test2 {
+.text2 {
     animation-delay: 0.8s;
 }
-.test3 {
+.text3 {
     animation-delay: 1.7s;
 }
-.test4 {
+.text4 {
     animation-delay: 2.8s;
 }
-.test5 {
+.text5 {
     animation-delay: 4.5s;
 }
 
-.test6 {
+.wlc-btn {
     animation-delay: 5.5s;
 }
 
