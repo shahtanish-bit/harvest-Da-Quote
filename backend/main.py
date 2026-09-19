@@ -68,7 +68,7 @@ def harvest(request: Request):
 # (PUBLIC) THis will return all the quotes along with their 0-indexed ids
 @app.get("/api/all_quotes")
 @limiter.limit("10/minute") # ermm 10 sounds fine for this one too
-def get_all_quotes():
+def get_all_quotes(request: Request):
     return [
         {"id": index, "quote": quote} for index, quote in enumerate(QUOTE_DATA)
     ]
