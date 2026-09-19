@@ -56,14 +56,25 @@ def root():
     return {"Hello": "World"}
 
 
+# (PUBLIC) this will return a single quote
 @app.get("/api/quote")
-@limiter.limit("10/minute")
+@limiter.limit("10/minute") # this means only 10 req per min
 def harvest(request: Request):
     if not QUOTE_DATA:
         raise HTTPException(status_code=500, detail="No quote available in database.")
     return random.choice(QUOTE_DATA)
 
 
+# (PUBLIC) THis will return all the quotes along with their 0-indexed ids
+@app.get("/api/all_quotes")
+@limiter.limit("10/minute") # ermm 10 sounds fine for this one too
+def get_all_quotes():
+    return [
+        {"id": index, "quote": quote} for index, quote in enumerate(QUOTE_DATA)
+    ]
+
+
+# (PRIVATE) this will allow us to add quotes
 @app.post("/api/add_quote")
 async def add_quote(
     request: Request, x_api_key: str = Header(None)
