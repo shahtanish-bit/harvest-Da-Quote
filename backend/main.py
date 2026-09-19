@@ -71,7 +71,7 @@ def root():
 # CHANGED add_quote, delete_quote, edit_quote routs into unified quote/{quote_id} where the method determines the action and respected call
 
 # (PUBLIC) this will return a single quote
-@app.get("/api/quote")
+@app.get("/api/quote", tags=["Public"])
 @limiter.limit("20/minute") # this means only 20 req per min
 def harvest(request: Request):
     if not QUOTE_DATA:
@@ -79,7 +79,7 @@ def harvest(request: Request):
     return random.choice(QUOTE_DATA)
 
 # (PUBLIC) this will return quote of that id
-@app.get("/api/quote/{quote_id}")
+@app.get("/api/quote/{quote_id}", tags=["Public"])
 @limiter.limit("20/minute")
 def quote_by_id(
     quote_id: int, request: Request
@@ -90,7 +90,7 @@ def quote_by_id(
     return QUOTE_DATA[quote_id]
 
 # (PUBLIC) THis will return all the quotes along with their 0-indexed ids
-@app.get("/api/all_quotes")
+@app.get("/api/all_quotes", tags=["Public"])
 @limiter.limit("10/minute") # ermm 10 sounds fine for now
 def get_all_quotes(request: Request):
     return [
@@ -99,7 +99,7 @@ def get_all_quotes(request: Request):
 
 
 # (PRIVATE) this will allow us to add quotes
-@app.post("/api/quote")
+@app.post("/api/quote", tags=["Admin"])
 async def add_quote(
     request: Request, x_api_key: str = Header(None)
 ):
@@ -122,7 +122,7 @@ async def add_quote(
 
 
 # (PRIVATE) this will allow us to delete a quote with given id
-@app.delete("/api/quote/{quote_id}")
+@app.delete("/api/quote/{quote_id}", tags=["Admin"])
 def delete_quote(
     quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
@@ -142,7 +142,7 @@ def delete_quote(
 
 
 # (PRIVATE) this will allow us to edit the quote of given id
-@app.put("/api/quote/{quote_id}")
+@app.put("/api/quote/{quote_id}", tags=["Admin"])
 async def edit_quote(
         quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
