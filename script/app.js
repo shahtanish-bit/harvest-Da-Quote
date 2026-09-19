@@ -51,14 +51,6 @@ const SWING_MS  = 650;    // total length of one sickle swing
 const HIT_MS    = 250;    // when the blade "hits" during the swing
 
 
-/* ---------- QUOTE SOURCE (teammate: plug the database/API in here) ----------
-   Must return the quote as a plain string. Right now it's a placeholder.
-   Example once the API is ready (backend/main.py serves /api/quote):
-
-       const res = await fetch('https://YOUR-API-URL/api/quote');
-       const data = await res.json();
-       return data.quote;          // <- use whatever field name your data has
--------------------------------------------------------------------------- */
 async function getQuote() {
     try {
         return 'Your quote will appear here!';
