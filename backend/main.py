@@ -68,19 +68,30 @@ app.add_middleware(
 def root():
     return {"Hello": "World"}
 
+# CHANGED add_quote, delete_quote, edit_quote routs into unified quote/{quote_id} where the method determines the action and respected call
 
 # (PUBLIC) this will return a single quote
 @app.get("/api/quote")
-@limiter.limit("10/minute") # this means only 10 req per min
+@limiter.limit("20/minute") # this means only 20 req per min
 def harvest(request: Request):
     if not QUOTE_DATA:
         raise HTTPException(status_code=500, detail="No quote available in database.")
     return random.choice(QUOTE_DATA)
 
+# (PUBLIC) this will return quote of that id
+@app.get("/api/quote/{quote_id}")
+@limiter.limit("20/minute")
+def quote_by_id(
+    quote_id: int, request: Request
+):
+    if (quote_id < 0 or quote_id >= len(QUOTE_DATA)):
+        raise HTTPException(status_code=404, detail="Quote index not found.")
+
+    return QUOTE_DATA[quote_id]
 
 # (PUBLIC) THis will return all the quotes along with their 0-indexed ids
 @app.get("/api/all_quotes")
-@limiter.limit("10/minute") # ermm 10 sounds fine for this one too
+@limiter.limit("10/minute") # ermm 10 sounds fine for now
 def get_all_quotes(request: Request):
     return [
         {"id": index, "quote": quote} for index, quote in enumerate(QUOTE_DATA)
@@ -88,7 +99,7 @@ def get_all_quotes(request: Request):
 
 
 # (PRIVATE) this will allow us to add quotes
-@app.post("/api/add_quote")
+@app.post("/api/quote")
 async def add_quote(
     request: Request, x_api_key: str = Header(None)
 ):
@@ -111,7 +122,7 @@ async def add_quote(
 
 
 # (PRIVATE) this will allow us to delete a quote with given id
-@app.delete("/api/delete_quote/{quote_id}")
+@app.delete("/api/quote/{quote_id}")
 def delete_quote(
     quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
@@ -131,7 +142,7 @@ def delete_quote(
 
 
 # (PRIVATE) this will allow us to edit the quote of given id
-@app.put("/api/edit_quote/{quote_id}")
+@app.put("/api/quote/{quote_id}")
 async def edit_quote(
         quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
