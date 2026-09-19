@@ -115,3 +115,33 @@ def delete_quote(
         "message" : f"Quote of id:{quote_id}, deleted!",
         "deleted_quote": removed
     }
+
+
+# (PRIVATE) this will allow us to edit the quote of given id
+@app.put("/api/edit_quote/{quote_id}")
+async def edit_quote(
+        quote_id: int, request: Request, x_api_key: str = Header(None)
+):
+    
+    if x_api_key != SECRET_KEY:
+            raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    if quote_id < 0 or quote_id >= len(QUOTE_DATA):
+        raise HTTPException(status_code=404, detail="Quote index not found")
+
+    data = await request.json()
+    updated_quote = data.get("quote")
+
+    if not updated_quote:
+        raise HTTPException(status_code=400, detail="Quote is required")
+
+    QUOTE_DATA[quote_id] = updated_quote
+
+    with open("quotes.json", "w", encoding="utf-8") as f:
+        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+
+    return {
+        "message": f"Quote of index: {quote_id}, updated!",
+        "id": quote_id,
+        "quote": updated_quote
+    }
