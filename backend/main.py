@@ -93,3 +93,25 @@ async def add_quote(
         json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
 
     return {"message": "Added!", "quote": new_quote}
+
+
+# (PRIVATE) this will allow us to delete a quote with given id
+@app.delete("/api/delete_quote/{quote_id}")
+def delete_quote(
+    quote_id: int, request: Request, x_api_key: str = Header(None)
+):
+    if x_api_key != SECRET_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    if quote_id < 0 or quote_id >= len(QUOTE_DATA):
+        raise HTTPException(status_code=404, detail="Quote index not found")
+
+    removed = QUOTE_DATA.pop(quote_id)
+
+    with open("quotes.json", "w", encoding="utf-8") as f:
+        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+
+    return {
+        "message" : f"Quote of id:{quote_id}, deleted!",
+        "deleted_quote": removed
+    }
