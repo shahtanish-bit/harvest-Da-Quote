@@ -10,21 +10,34 @@ from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from dotenv import load_dotenv
+import os
 
 QUOTE_DATA = []
+json_path = Path(__file__).parent / "quotes.json"
 
 # for now -- for testing purpose, im keep this kinda in string here but later i will use .env dwdw
-SECRET_KEY = "test"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY", "realpassword@123") # ERM! if there is no .env it will fall back to the "realpassword@123" but i dont think its happening any time soon
 
 # CREDIT FOR QUOTES: https://github.com/Osaidii/Quotes-API/
-# I asked for his permission to use this and he replied affirmatively!
+# I asked for his(repo's owner) permission to use this and he replied affirmatively!
 def load_quotes():
-    json_path = Path(__file__).parent / "quotes.json"
     if not json_path.exists():
         raise FileNotFoundError("quotes.json file not found!")
     
     with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
+
+# small qol for code
+def save_quotes():
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+
+# checks auth for (PRIVATE) thingies
+def check_auth(x_api_key):
+    if x_api_key != SECRET_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -79,8 +92,7 @@ def get_all_quotes(request: Request):
 async def add_quote(
     request: Request, x_api_key: str = Header(None)
 ):
-    if x_api_key != SECRET_KEY:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    check_auth(x_api_key)
 
     data = await request.json()
     new_quote = data.get("quote")
@@ -88,9 +100,12 @@ async def add_quote(
     if not new_quote:
         raise HTTPException(status_code=400, detail="quote is required")
 
+    if new_quote in QUOTE_DATA:
+        raise HTTPException(status_code=400, detail="Quote already exists in database.")
+
     QUOTE_DATA.append(new_quote)
-    with open("quotes.json", "w", encoding="utf-8") as f:
-        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+
+    save_quotes()
 
     return {"message": "Added!", "quote": new_quote}
 
@@ -100,16 +115,14 @@ async def add_quote(
 def delete_quote(
     quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
-    if x_api_key != SECRET_KEY:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    check_auth(x_api_key)
 
     if quote_id < 0 or quote_id >= len(QUOTE_DATA):
         raise HTTPException(status_code=404, detail="Quote index not found")
 
     removed = QUOTE_DATA.pop(quote_id)
 
-    with open("quotes.json", "w", encoding="utf-8") as f:
-        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+    save_quotes()
 
     return {
         "message" : f"Quote of id:{quote_id}, deleted!",
@@ -123,8 +136,7 @@ async def edit_quote(
         quote_id: int, request: Request, x_api_key: str = Header(None)
 ):
     
-    if x_api_key != SECRET_KEY:
-            raise HTTPException(status_code=401, detail="Unauthorized")
+    check_auth(x_api_key)
     
     if quote_id < 0 or quote_id >= len(QUOTE_DATA):
         raise HTTPException(status_code=404, detail="Quote index not found")
@@ -137,8 +149,7 @@ async def edit_quote(
 
     QUOTE_DATA[quote_id] = updated_quote
 
-    with open("quotes.json", "w", encoding="utf-8") as f:
-        json.dump(QUOTE_DATA, f, indent=2, ensure_ascii=False)
+    save_quotes()
 
     return {
         "message": f"Quote of index: {quote_id}, updated!",
