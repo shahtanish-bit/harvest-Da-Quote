@@ -30,7 +30,7 @@ document.documentElement.addEventListener('mouseleave', () => {
 
 
 const GOAL      = 1;      // cuts needed to get a quote
-const STALKS    = 40;     // how many wheat stalks to plant
+const STALKS    = 50;     // how many wheat stalks to plant
 const SWING_MS  = 650;    // total length of one sickle swing
 const HIT_MS    = 250;    // when the blade "hits" during the swing
 
@@ -51,7 +51,6 @@ async function getQuote() {
 
 const harvest   = document.getElementById('harvest');
     const field     = document.getElementById('field');
-    const hud       = document.getElementById('hud');
     const card      = document.getElementById('quote-card');
     const quoteText = document.getElementById('quote-text');
     const quoteBtn  = document.getElementById('quote-close');
@@ -59,11 +58,6 @@ const harvest   = document.getElementById('harvest');
     let count = 0;
     let swinging = false;
 
-    hud.hidden = GOAL === 1;                                          // a 0 / 1 counter is pointless
-
-    function updateHud() {
-        hud.textContent = `🌾 ${count} / ${GOAL}`;
-    }
 
     function plant() {
         field.innerHTML = '';
@@ -107,7 +101,6 @@ const harvest   = document.getElementById('harvest');
         stalk.style.backgroundImage = 'url("images/stubble.png")';
 
         count++;
-        updateHud();
         if (count === GOAL) setTimeout(showQuote, 700);
     }
 
@@ -126,7 +119,6 @@ const harvest   = document.getElementById('harvest');
     quoteBtn.addEventListener('click', () => {
         card.hidden = true;
         count = 0;
-        updateHud();
         plant();                                                      // the wheat regrows
     });
 
