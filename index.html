@@ -8,6 +8,8 @@
 </head>
 <body>
 
+    <div class="sickle" id="sickle"></div>
+
     <img src="images/bg for grup project.png" alt="" class="bg-img">
 
     <div class="wlc-div wlc-hidden" id="wlc-div">
@@ -33,12 +35,18 @@
 
 
     <main>
-        <section class="todooo">
+        <section class="todooo" id="harvest">
             <img src="images/pixeled-bg.png" alt="" class="bg-img-for">
+            <div class="hud" id="hud">🌾 0 / 5</div>
+            <div class="field" id="field"></div>
         </section>
     </main>
 
+    <div class="quote-card" id="quote-card" hidden>
+        <p id="quote-text"></p>
+        <button class="wlc-btn" id="quote-close">Keep harvesting</button>
+    </div>
 
-    <script src="script/load.js"></script>
+    <script src="script/app.js"></script>
 </body>
 </html>

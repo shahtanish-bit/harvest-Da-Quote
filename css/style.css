@@ -4,11 +4,30 @@
 }
 
 html {
-    cursor: url('../images/sickel.png'), auto;
     scroll-behavior: smooth;
+    cursor: none;
 }
 
+.sickle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 96px;
+    height: 96px;
+    background: url("../images/sickle.png") center / contain no-repeat;
+    image-rendering: pixelated;
+    margin: -34px 0 0 -13px;
+        transform-origin: 78% 85%;  
+    pointer-events: none;
+        /* opacity: 0; */
+        transition: opacity 0.15s;
+    z-index: 10000;
+}
+
+
+
 body {
+    cursor: none;
     font-family: 'Poppins', sans-serif;
     background-color: #333;
     color: #fff;
@@ -59,10 +78,6 @@ body {
 
 
 
-
-
-
-
 .bg-img-for {
     position: absolute;
     width: 100vw;
@@ -71,6 +86,188 @@ body {
     z-index: -1;
     pointer-events: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.todooo {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.bg-img-for {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;   /* keeps the wheat field at the bottom on any screen */
+    z-index: -1;
+    pointer-events: none;
+}
+
+.field {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24vh;
+}
+
+.stalk {
+    position: absolute;
+    width: 48px;                      /* 16px sprite x 3 */
+    height: 96px;                     /* 32px sprite x 3 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    image-rendering: pixelated;
+    transform-origin: bottom center;
+    animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes sway {
+    0%, 100% { rotate: -2deg; }
+    50%      { rotate: 2deg; }
+}
+
+/* after the cut: base turns into stubble, the top half falls off */
+.stalk.cut {
+    height: 30px;                     /* 10px stubble sprite x 3 */
+    animation: none;
+    pointer-events: none;
+}
+
+.stalk.top-piece {
+    clip-path: inset(0 0 31% 0);      /* keep only the top part */
+    transform-origin: 50% 69%;        /* pivot at the cut */
+    animation: fall 0.8s ease-in forwards;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    to {
+        rotate: 80deg;
+        translate: 35px 45px;
+        opacity: 0;
+    }
+}
+
+/* 
+.hud {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px 14px;
+    background: #2c1410;
+    color: #fff3d6;
+    border: 3px solid #edba5e;
+    font-weight: 600;
+    z-index: 500;
+} */
+
+.quote-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: min(90vw, 460px);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #2c1410;
+    color: #fff3d6;
+    border: 4px solid #edba5e;
+    box-shadow: 0 0 0 4px #2c1410;
+    z-index: 9000;
+    animation: pop 0.25s ease-out;
+}
+
+.quote-card[hidden] {
+    display: none;                    /* display:flex above would otherwise win over [hidden] */
+}
+
+.quote-card p {
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
+
+@keyframes pop {
+    from { scale: 0.6; opacity: 0; }
+}
+
+/* ANIMATION */
+.wlc-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+
+.wlc-hidden {
+    display: none !important;
+}
+
+.wlc-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.wlc-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: wheat;
+    color: #1B1B1B;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.wlc-text {
+    color: wheat;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ANIMATION */
 .wlc-div {
