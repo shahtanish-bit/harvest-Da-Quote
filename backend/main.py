@@ -13,10 +13,13 @@ from slowapi.errors import RateLimitExceeded
 
 QUOTE_DATA = []
 
+
+# CREDIT FOR QUOTES: https://github.com/Osaidii/Quotes-API/
+# I asked for his permission to use this and he replied affirmatively!
 def load_quotes():
     json_path = Path(__file__).parent / "quotes.json"
     if not json_path.exists():
-        raise FileNotFoundError("quote.json file not found!")
+        raise FileNotFoundError("quotes.json file not found!")
     
     with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
