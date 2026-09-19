@@ -4,6 +4,7 @@
 }
 
 html {
+    cursor: url('../images/sickel.png'), auto;
     scroll-behavior: smooth;
 }
 
@@ -56,6 +57,20 @@ body {
     line-height: 1.5rem;
 }
 
+
+
+
+
+
+
+.bg-img-for {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+}
 
 /* ANIMATION */
 .wlc-div {
@@ -127,20 +142,18 @@ body {
     animation-delay: 0.1s;
 }
 .text2 {
-    animation-delay: 0.8s;
+    animation-delay: 1.2s;
 }
 .text3 {
-    animation-delay: 1.7s;
+    animation-delay: 2.4s;
 }
 .text4 {
-    animation-delay: 2.8s;
-}
-.text5 {
-    animation-delay: 4.5s;
+    animation-delay: 4.1s;
 }
 
+
 .wlc-btn {
-    animation-delay: 5.5s;
+    animation-delay: 5.1s;
 }
 
 
